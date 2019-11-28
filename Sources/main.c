@@ -8,11 +8,13 @@
 #include "timed.h"
 #include "timer.h"
 #include "config.h"
+#include "common.h"
 #include "status.h"
 #include "uart.h"
 
 int main(void)
 {
+    common_init();
     thermostatInit();
     adaptiveLightingInit();
     timedLightingInit();
