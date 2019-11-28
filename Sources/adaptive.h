@@ -23,4 +23,6 @@ int adaptiveLightingGetMinLight(void);
 
 enum status adaptiveLightingStatus(void);
 
+int adaptiveLightingPercentage(void);
+
 #endif /* ADAPTIVE_H_ */

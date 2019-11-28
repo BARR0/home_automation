@@ -24,4 +24,6 @@ int thermostatGetMaxTemp(void);
 
 enum status thermostatStatus(void);
 
+int thermostatTemperature(void);
+
 #endif /* THERMOSTAT_H_ */

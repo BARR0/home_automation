@@ -5,8 +5,7 @@
  *      Author: andre
  */
 
-#include<stdlib.h>
-#include<stdio.h>
+#include <stdio.h>
 #include "adaptive.h"
 #include "config.h"
 #include "thermostat.h"
