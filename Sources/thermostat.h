@@ -8,6 +8,8 @@
 #ifndef THERMOSTAT_H_
 #define THERMOSTAT_H_
 
+#define THERMOSTAT_KEY 't'
+
 void thermostatInit(void);
 void thermostatOff(void);
 void thermostatOn(void);

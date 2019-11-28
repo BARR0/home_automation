@@ -8,10 +8,12 @@
 #ifndef TIMED_H_
 #define TIMED_H_
 
-void timeLightingInit(void);
-void timeLightingOff(void);
-void timeLightingOn(void);
-void timeLightingAuto(void);
-void timeLightingConfig(int alarm_on, int alarm_off);
+#define TIMED_LIGHTING_KEY 'l'
+
+void timedLightingInit(void);
+void timedLightingOff(void);
+void timedLightingOn(void);
+void timedLightingAuto(void);
+void timedLightingConfig(int alarm_on, int alarm_off);
 
 #endif /* TIMED_H_ */

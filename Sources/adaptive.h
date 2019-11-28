@@ -8,6 +8,8 @@
 #ifndef ADAPTIVE_H_
 #define ADAPTIVE_H_
 
+#define ADAPTIVE_LIGHTING_KEY 'a'
+
 void adaptiveLightingInit(void);
 void adaptiveLightingOff(void);
 void adaptiveLightingOn(void);

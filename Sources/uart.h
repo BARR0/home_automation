@@ -9,8 +9,8 @@
 #define UART_H_
 
 void uartInit(void);
-void uartPutCh(char input);
-void uartPutString(char *input);
+void uartPutCh(char output);
+void uartPutString(char *output);
 int uartIsCharAvailable(void);
 char uartGetCh(void);
 char *uartGetLine(void);
