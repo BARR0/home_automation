@@ -13,14 +13,5 @@
 
 int main(void)
 {
-	int counter = 0;
-	
-	
-	
-	
-	for(;;) {	   
-	   	counter++;
-	}
-	
 	return 0;
 }
