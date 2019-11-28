@@ -57,6 +57,12 @@ void statusPrint(void)
 
     sprintf(buff, "The Alarm OFF time is: %d\n", timedLightingGetAlarmOff());
     uartPutString(buff);
+
+    uartPutCh('\n');
+
+    // uartPutString();
+
+    uartPutCh('\n');
 }
 
 void printStatus(enum status component)

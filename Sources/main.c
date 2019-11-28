@@ -23,7 +23,6 @@ int main(void)
 
     for (;;)
     {
-        statusPrint();
         if (uartIsCharAvailable())
         {
             switch (uartGetCh())
@@ -75,6 +74,7 @@ int main(void)
                 break;
             }
         }
+        statusPrint();
         timerSleep1Second();
     }
 

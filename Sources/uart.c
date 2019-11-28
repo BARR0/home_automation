@@ -41,7 +41,10 @@ void uartPutString(char *output)
     {
         uartPutCh(*output);
     }
-    // uartPutCh("\r");
+    if (*(output - 1) == '\n')
+    {
+        uartPutCh('\r');
+    }
 }
 
 int uartIsCharAvailable(void)
@@ -64,8 +67,9 @@ volatile char *uartGetLine(void)
 {
     volatile char *current = buff;
     char next;
-    for (next = uartGetCh(); next != '\n'; next = uartGetCh())
+    for (next = uartGetCh(); next != '\r'; next = uartGetCh())
     {
+        uartPutCh(next);
         *current = next;
         current++;
     }
