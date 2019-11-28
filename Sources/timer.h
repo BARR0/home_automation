@@ -9,6 +9,7 @@
 #define TIMER_H_
 
 void timerInit(void);
+void timerSetRTC(int time);
 void timerSleep1Second(void);
 
 #endif /* TIMER_H_ */
