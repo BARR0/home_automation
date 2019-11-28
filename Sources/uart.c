@@ -60,9 +60,9 @@ char uartGetCh(void)
 
 volatile char buff[MAX_BUFF];
 
-char *uartGetLine(void)
+volatile char *uartGetLine(void)
 {
-    char *current = buff;
+    volatile char *current = buff;
     char next;
     for (next = uartGetCh(); next != '\n'; next = uartGetCh())
     {
