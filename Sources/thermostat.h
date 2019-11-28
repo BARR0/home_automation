@@ -13,10 +13,14 @@
 #define THERMOSTAT_KEY 't'
 
 void thermostatInit(void);
+
 void thermostatOff(void);
 void thermostatOn(void);
 void thermostatAuto(void);
+
 void thermostatConfig(int min_temp_th, int max_temp_th);
+int thermostatGetMinTemp(void);
+int thermostatGetMaxTemp(void);
 
 enum status thermostatStatus(void);
 

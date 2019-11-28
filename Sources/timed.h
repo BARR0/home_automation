@@ -13,10 +13,14 @@
 #define TIMED_LIGHTING_KEY 'l'
 
 void timedLightingInit(void);
+
 void timedLightingOff(void);
 void timedLightingOn(void);
 void timedLightingAuto(void);
+
 void timedLightingConfig(int alarm_on, int alarm_off);
+int timedLightingGetAlarmOn(void);
+int timedLightingGetAlarmOff(void);
 
 enum status timedLightingStatus(void);
 

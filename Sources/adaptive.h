@@ -13,10 +13,13 @@
 #define ADAPTIVE_LIGHTING_KEY 'a'
 
 void adaptiveLightingInit(void);
+
 void adaptiveLightingOff(void);
 void adaptiveLightingOn(void);
 void adaptiveLightingAuto(void);
+
 void adaptiveLightingConfig(int min_light_th);
+int adaptiveLightingGetMinLight(void);
 
 enum status adaptiveLightingStatus(void);
 

@@ -1,5 +1,5 @@
 /*
- * main implementation: use this 'C' sample to create your own application
+ * main implementation
  *
  */
 
