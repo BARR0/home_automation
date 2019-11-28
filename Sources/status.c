@@ -5,12 +5,17 @@
  *      Author: andre
  */
 
-#include <stdlib.h>
+#include <stdio.h>
+#include "adaptive.h"
+#include "thermostat.h"
 #include "status.h"
+#include "timed.h"
 #include "timer.h"
 #include "uart.h"
 
 #define MAX_BUFF 1000
+
+void printStatus(enum status component);
 
 void statusPrint(void)
 {

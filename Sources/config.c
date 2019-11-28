@@ -5,10 +5,11 @@
  *      Author: andre
  */
 
-#include <stdio.h>
+#include <stdlib.h>
 #include "adaptive.h"
 #include "config.h"
 #include "thermostat.h"
+#include "timed.h"
 #include "timer.h"
 #include "uart.h"
 

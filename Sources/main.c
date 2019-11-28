@@ -17,6 +17,7 @@ int main(void)
     adaptiveLightingInit();
     timedLightingInit();
     timerInit();
+    uartInit();
 
     for (;;)
     {
