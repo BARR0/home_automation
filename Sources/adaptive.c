@@ -58,5 +58,5 @@ enum status adaptiveLightingStatus(void)
 int adaptiveLightingPercentage(void)
 {
     // TODO
-	return -1;
+    return -1;
 }

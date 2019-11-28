@@ -66,5 +66,5 @@ enum status thermostatStatus(void)
 int thermostatTemperature(void)
 {
     // TODO
-	return -1;
+    return -1;
 }

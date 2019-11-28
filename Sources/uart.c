@@ -31,7 +31,8 @@ int uartIsCharAvailable(void)
 
 char uartGetCh(void)
 {
-    while (!uartIsCharAvailable());
+    while (!uartIsCharAvailable())
+        ;
     // TODO
     return '\0';
 }

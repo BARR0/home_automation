@@ -13,7 +13,7 @@ void timerInit(void)
 int timerGetRTC()
 {
     // TODO
-	return -1;
+    return -1;
 }
 
 void timerSetRTC(int time)
