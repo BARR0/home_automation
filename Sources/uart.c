@@ -10,6 +10,7 @@
 
 #define OSR0 13
 #define SBR0 13
+#define UART0RXPIN 1
 #define UART0TXPIN 2
 
 void uartInit(void)
@@ -23,7 +24,8 @@ void uartInit(void)
     UART0->C1 = 0;                                   // 8 bit, no parity, 1 stop bit
     UART0->C2 = UART0_C2_TE_MASK | UART0_C2_RE_MASK; // Transmit/Receive Enable
     SIM->SCGC5 |= SIM_SCGC5_PORTA_MASK;              // Enable CLock for PORTA
-    PORTA->PCR[UART0TXPIN] = PORT_PCR_MUX(2);        // Configure PA2 as function UART0_TX
+    PORTA->PCR[UART0TXPIN] = PORT_PCR_MUX(2);        // Configure PORTA2 as function UART0_TX
+    PORTA->PCR[UART0RXPIN] = PORT_PCR_MUX(2);        // Configure PORTA1 as function UART0_RX
 }
 
 void uartPutCh(char output)
