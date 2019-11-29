@@ -67,11 +67,23 @@ volatile char *uartGetLine(void)
 {
     volatile char *current = buff;
     char next;
+    int i = 0;
     for (next = uartGetCh(); next != '\r'; next = uartGetCh())
     {
-        uartPutCh(next);
-        *current = next;
-        current++;
+        if (next != 127)
+        {
+            i++;
+            uartPutCh(next);
+            *current = next;
+            current++;
+        }
+        else if(i > 0)
+        {
+            i--;
+            uartPutCh(next);
+            current--;
+        }
+        
     }
     *current = '\n';
     current++;
