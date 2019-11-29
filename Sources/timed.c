@@ -8,12 +8,12 @@
 #include "timed.h"
 #include "derivative.h"
 #include "common.h"
+#include "timer.h"
+#include "uart.h"
 
 // TODO
 #define DEFAULT_ON -1
 #define DEFAULT_OFF -1
-#define TPM2_MOD 100
-#define ADC0_MAX 4100
 
 volatile enum status timedStatus = Off;
 volatile int on = DEFAULT_ON;
@@ -34,17 +34,20 @@ void timedLightingInit(void)
     // Timer sets MCGIRCLK
     TPM2->SC = 0;                         // Disable timer
     TPM2->CONTROLS[0].CnSC = 0x20 | 0x09; // Edge-aligned pulse high
-    TPM2->MOD = TPM2_MOD;                 // Modulo register 60Hz
+    TPM2->MOD = TPM2_B_MOD;               // Modulo register 60Hz
     TPM2->CONTROLS[0].CnV = 0;            // Set up channel to 50%
     TPM2->SC = TPM_SC_CMOD(1);            // Enable TPM2
 
     // TODO: Auto
+    // NVIC->ICPR = 0;
+    // RTC->IER |= RTC_IER_TAIE_MASK;
+    // NVIC->ISER |= 1 << 20;
 }
 
 void timedLightingOff(void)
 {
     // TODO
-    PORTE->PCR[22] = PORT_PCR_MUX(3);
+    RTC->IER &= ~RTC_IER_TAIE_MASK;
     TPM2->CONTROLS[0].CnV = 0;
     timedStatus = Off;
 }
@@ -52,13 +55,25 @@ void timedLightingOff(void)
 void timedLightingOn(void)
 {
     // TODO
-    PORTE->PCR[22] = PORT_PCR_MUX(3);
     timedStatus = On;
 }
 
 void timedLightingAuto(void)
 {
     // TODO
+    int time = timerGetRTC();
+    NVIC->ICPR = 0;
+    RTC->CR |= RTC_CR_SWR_MASK;
+    RTC->CR &= ~RTC_CR_SWR_MASK;
+    if (RTC->SR & RTC_SR_TIF_MASK)
+    {
+        RTC->TSR = 0x00000000;
+    }
+    RTC->TCR = RTC_TCR_CIR(1) | RTC_TCR_TCR(0xFF);
+    RTC->TAR = on;
+    RTC->IER |= RTC_IER_TAIE_MASK;
+    NVIC->ISER |= 1 << 20;
+    RTC->SR |= RTC_SR_TCE_MASK;
     timedStatus = Auto;
 }
 
@@ -74,8 +89,7 @@ void timedLightingWork(void)
         while (!(ADC0->SC1[0] & ADC_SC1_COCO_MASK))
             ;                    /* wait for conversion complete */
         int result = ADC0->R[0]; /* read conversion result and clear COCO flag */
-        // uartPrintInt("Pot Value: ", result);
-        TPM2->CONTROLS[0].CnV = (TPM2_MOD * result) / ADC0_MAX;
+        TPM2->CONTROLS[0].CnV = (TPM2_B_MOD * result) / ADC0_MAX;
         break;
     case Auto:
         break;
@@ -105,4 +119,10 @@ int timedLightingGetAlarmOff(void)
 enum status timedLightingStatus(void)
 {
     return timedStatus;
+}
+
+void RTC_Alarm_IRQHandler()
+{
+    uartPutString("=========== ALARM ===========");
+    RTC->TAR = off;
 }

@@ -10,6 +10,9 @@
 
 #include "MKL25Z4.h"
 
+#define ADC0_MAX 4100
+#define TPM2_B_MOD 100
+
 volatile SIM_MemMapPtr SIM;
 volatile MCG_MemMapPtr MCG;
 volatile UART0_MemMapPtr UART0;

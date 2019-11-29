@@ -18,6 +18,8 @@ void adaptiveLightingOff(void);
 void adaptiveLightingOn(void);
 void adaptiveLightingAuto(void);
 
+void adaptiveLightingWork(void);
+
 void adaptiveLightingConfig(int min_light_th);
 int adaptiveLightingGetMinLight(void);
 

@@ -5,6 +5,8 @@
  *      Author: andre
  */
 
+#include <stdio.h>
+
 #include "derivative.h"
 #include "common.h"
 

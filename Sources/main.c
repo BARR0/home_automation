@@ -75,6 +75,7 @@ int main(void)
             }
         }
         timedLightingWork();
+        adaptiveLightingWork();
         statusPrint();
         timerSleep1Second();
     }

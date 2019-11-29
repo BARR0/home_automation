@@ -40,15 +40,13 @@ void timerInit(void)
     SIM->SOPT2 |= SIM_SOPT2_CLKOUTSEL(0b100);
     PORTC->PCR[3] |= PORT_PCR_MUX(0x5);
     SIM->SCGC6 |= SIM_SCGC6_RTC_MASK;
-    RTC->CR = RTC_CR_SWR_MASK;
+    RTC->CR |= RTC_CR_SWR_MASK;
     RTC->CR &= ~RTC_CR_SWR_MASK;
     if (RTC->SR & RTC_SR_TIF_MASK)
     {
         RTC->TSR = 0x00000000;
     }
     RTC->TCR = RTC_TCR_CIR(1) | RTC_TCR_TCR(0xFF);
-    // enable_irq(INT_RTC_Seconds - 16);
-    // RTC_IER |= RTC_IER_TSIE_MASK;
     RTC->SR |= RTC_SR_TCE_MASK;
 }
 
