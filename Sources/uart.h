@@ -16,5 +16,6 @@ void uartPutString(char *output);
 int uartIsCharAvailable(void);
 char uartGetCh(void);
 char *uartGetLine(void);
+void uartPrintInt(char *output, int value);
 
 #endif /* UART_H_ */

@@ -18,6 +18,8 @@ void timedLightingOff(void);
 void timedLightingOn(void);
 void timedLightingAuto(void);
 
+void timedLightingWork(void);
+
 void timedLightingConfig(int alarm_on, int alarm_off);
 int timedLightingGetAlarmOn(void);
 int timedLightingGetAlarmOff(void);

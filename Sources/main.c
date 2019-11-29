@@ -74,6 +74,7 @@ int main(void)
                 break;
             }
         }
+        timedLightingWork();
         statusPrint();
         timerSleep1Second();
     }

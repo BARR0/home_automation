@@ -90,3 +90,10 @@ volatile char *uartGetLine(void)
     *current = '\0';
     return buff;
 }
+
+void uartPrintInt(char *output, int value)
+{
+    char buff[1000];
+    sprintf(buff, "%s%d\n", output, value);
+    uartPutString(buff);
+}

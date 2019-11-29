@@ -12,8 +12,8 @@
 // TODO
 #define DEFAULT_ON -1
 #define DEFAULT_OFF -1
-#define TPM2_MOD 1000
-#define ADC0_MAX 32767
+#define TPM2_MOD 100
+#define ADC0_MAX 4100
 
 volatile enum status timedStatus = Off;
 volatile int on = DEFAULT_ON;
@@ -74,6 +74,7 @@ void timedLightingWork(void)
         while (!(ADC0->SC1[0] & ADC_SC1_COCO_MASK))
             ;                    /* wait for conversion complete */
         int result = ADC0->R[0]; /* read conversion result and clear COCO flag */
+        // uartPrintInt("Pot Value: ", result);
         TPM2->CONTROLS[0].CnV = (TPM2_MOD * result) / ADC0_MAX;
         break;
     case Auto:
