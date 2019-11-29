@@ -15,11 +15,11 @@
 int main(void)
 {
     common_init();
-    thermostatInit();
-    adaptiveLightingInit();
-    timedLightingInit();
     timerInit();
     uartInit();
+    timedLightingInit();
+    adaptiveLightingInit();
+    thermostatInit();
 
     for (;;)
     {

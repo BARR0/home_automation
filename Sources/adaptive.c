@@ -6,6 +6,8 @@
  */
 
 #include "adaptive.h"
+#include "derivative.h"
+#include "common.h"
 
 // TODO
 #define DEFAULT_LIGHT -1

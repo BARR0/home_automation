@@ -28,6 +28,7 @@ volatile TPM_MemMapPtr TPM1;
 volatile TPM_MemMapPtr TPM2;
 volatile I2C_MemMapPtr I2C1;
 volatile RTC_MemMapPtr RTC;
+volatile ADC_MemMapPtr ADC0;
 
 extern void common_init(void);
 

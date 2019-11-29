@@ -6,7 +6,9 @@
  */
 
 #include <stdio.h>
+
 #include "adaptive.h"
+#include "config.h"
 #include "thermostat.h"
 #include "status.h"
 #include "timed.h"
@@ -21,6 +23,11 @@ void statusPrint(void)
 {
     char buff[MAX_BUFF];
     uartPutString("Status:\n");
+
+    // Apparently this feature is not supported
+    // time_t time = timerGetRTC();
+    // char date[MAX_BUFF];
+    // ctime_s(date, MAX_BUFF, &time);
 
     sprintf(buff, "The current Date/Time is: %d\n", timerGetRTC());
     uartPutString(buff);
@@ -60,7 +67,19 @@ void statusPrint(void)
 
     uartPutCh('\n');
 
-    // uartPutString();
+    uartPutString("Controls:\n");
+
+    sprintf(buff, "To toggle the fan: '%c'\n", THERMOSTAT_KEY);
+    uartPutString(buff);
+
+    sprintf(buff, "To toggle the adaptive LED: '%c'\n", ADAPTIVE_LIGHTING_KEY);
+    uartPutString(buff);
+
+    sprintf(buff, "To toggle the timed LED: '%c'\n", TIMED_LIGHTING_KEY);
+    uartPutString(buff);
+
+    sprintf(buff, "To enter config mode: '%c'\n", CONFIG_KEY);
+    uartPutString(buff);
 
     uartPutCh('\n');
 }

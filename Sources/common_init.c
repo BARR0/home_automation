@@ -28,4 +28,5 @@ void common_init()
     NVIC = NVIC_BASE_PTR;
     I2C1 = I2C1_BASE_PTR;
     RTC = RTC_BASE_PTR;
+    ADC0 = ADC0_BASE_PTR;
 }

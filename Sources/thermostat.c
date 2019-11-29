@@ -6,6 +6,8 @@
  */
 
 #include "thermostat.h"
+#include "derivative.h"
+#include "common.h"
 
 // TODO
 #define DEFAULT_MAX -1
