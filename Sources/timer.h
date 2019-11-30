@@ -13,6 +13,10 @@ void timerInit(void);
 int timerGetRTC();
 void timerSetRTC(int time);
 
-void timerSleep1Second(void);
+void timerSleep(int delay);
+
+void timerStart1Sec(void);
+int timerIsSecDone(void);
+void timerStop1Sec(void);
 
 #endif /* TIMER_H_ */

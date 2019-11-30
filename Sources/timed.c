@@ -64,9 +64,9 @@ void timedLightingAuto(void)
     RTC->SR |= RTC_SR_TCE_MASK;
     RTC->IER |= RTC_IER_TAIE_MASK;
     NVIC->ISER |= 1 << 20;
-    timedStatus = Auto;
     RTC->SR &= ~RTC_SR_TAF_MASK;
     TPM2->CONTROLS[0].CnV = 0;
+    timedStatus = Auto;
 }
 
 void timedLightingWork(void)
@@ -74,6 +74,7 @@ void timedLightingWork(void)
     switch (timedLightingStatus())
     {
     case Off:
+        TPM2->CONTROLS[0].CnV = 0;
         break;
     case On:
         ADC0->SC1[0] = 0; /* start conversion on channel 0 */

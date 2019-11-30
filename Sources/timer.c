@@ -68,15 +68,36 @@ void timerSetRTC(int time)
     RTC->SR |= RTC_SR_TCE_MASK;
 }
 
-void timerSleep1Second(void)
+void timerSleep(int delay)
+{
+    TPM0->SC &= ~TPM_SC_CMOD(1);        //Stop TPM0
+    TPM0->CNT = 0;                      //Set TPM0 counter to 0
+    TPM0->SC |= TPM_SC_TOF_MASK;        //Clear TPM0 Timer Overflow Flag
+    TPM0->SC |= TPM_SC_CMOD(1);         //Start TPM0
+    TPM0->MOD = (32768 * delay) / 1000; //Set TPM0 Modulo to overflow every 1000ms
+    while ((TPM0->SC & TPM_SC_TOF_MASK) == 0)
+        ;                        //Loop until Timer Overflow Mask is set
+    TPM0->SC |= TPM_SC_TOF_MASK; //Clear Timer Overflow Mask
+    TPM0->SC |= TPM_SC_TOF_MASK; //Clear Timer Overflow Mask
+    TPM0->SC &= ~TPM_SC_CMOD(1); //Stop timer TPM0
+}
+
+void timerStart1Sec(void)
 {
     TPM0->SC &= ~TPM_SC_CMOD(1); //Stop TPM0
     TPM0->CNT = 0;               //Set TPM0 counter to 0
     TPM0->SC |= TPM_SC_TOF_MASK; //Clear TPM0 Timer Overflow Flag
     TPM0->SC |= TPM_SC_CMOD(1);  //Start TPM0
     TPM0->MOD = 32768;           //Set TPM0 Modulo to overflow every 1000ms
-    while ((TPM0->SC & TPM_SC_TOF_MASK) == 0)
-        ;                        //Loop until Timer Overflow Mask is set
+}
+
+int timerIsSecDone(void)
+{
+    return !((TPM0->SC & TPM_SC_TOF_MASK) == 0);
+}
+
+void timerStop1Sec(void)
+{
     TPM0->SC |= TPM_SC_TOF_MASK; //Clear Timer Overflow Mask
     TPM0->SC |= TPM_SC_TOF_MASK; //Clear Timer Overflow Mask
     TPM0->SC &= ~TPM_SC_CMOD(1); //Stop timer TPM0

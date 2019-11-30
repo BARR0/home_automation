@@ -9,6 +9,7 @@
 #include "derivative.h"
 #include "timed.h"
 #include "common.h"
+#include "uart.h"
 
 #define DEFAULT_LIGHT 50
 #define ADC0_MAX 4100
@@ -54,8 +55,10 @@ void adaptiveLightingWork(void)
     switch (adaptiveLightingStatus())
     {
     case Off:
+        TPM2->CONTROLS[1].CnV = 0;
         break;
     case On:
+        TPM2->CONTROLS[1].CnV = TPM2_B_MOD;
         break;
     case Auto:
         percentage = adaptiveLightingPercentage();
