@@ -28,7 +28,7 @@ void timedLightingInit(void)
     /* clock div by 4, long sample time, single ended 12 bit, bus clock */
     ADC0->CFG1 = ADC_CFG1_ADIV(2) | ADC_CFG1_ADLSMP_MASK | ADC_CFG1_MODE(1) | ADC_CFG1_ADICLK(0);
 
-    // Enable PTC2
+    // Enable PTE22
     PORTE->PCR[22] = PORT_PCR_MUX(3);
     SIM->SCGC6 |= SIM_SCGC6_TPM2_MASK; // Enable clock to TPM0
     // Timer sets MCGIRCLK

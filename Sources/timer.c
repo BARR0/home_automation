@@ -16,22 +16,6 @@ void timerInit(void)
     TPM0->SC = 0;                                                             //Set MCGIR clock divider to be 1 (no prescaler)
     TPM0->SC &= ~TPM_SC_CMOD(1);                                              //Stop timer TPM0
 
-    // SIM->SCGC6 |= SIM_SCGC6_RTC_MASK;
-    // SIM->SOPT1 &= ~SIM_SOPT1_OSC32KSEL_MASK;
-    // SIM->SOPT1 |= SIM_SOPT1_OSC32KSEL(0);
-    // // RTC->LR |= RTC_LR_SRL_MASK | RTC_LR_CRL_MASK;
-    // RTC->CR |= RTC_CR_SWR_MASK;
-    // RTC->CR &= ~RTC_CR_SWR_MASK;
-    // // RTC->TAR = 0xFFFFFFFF;
-    // RTC->CR |= RTC_CR_OSCE_MASK;
-    // timerSleep1Second();
-    // RTC->TCR = 0;
-    // RTC->SR &= ~RTC_SR_TCE_MASK;
-    // RTC->SR &= ~RTC_SR_TIF_MASK;
-    // RTC->SR &= ~RTC_SR_TOF_MASK;
-    // RTC->TSR = 0xFF;
-    // RTC->SR |= RTC_SR_TCE_MASK;
-
     SIM->SCGC5 |= SIM_SCGC5_PORTC_MASK;
     MCG->C1 |= MCG_C1_IRCLKEN_MASK;
     MCG->C2 &= ~(MCG_C2_IRCS_MASK);

@@ -11,9 +11,8 @@
 #include "uart.h"
 #include "timer.h"
 
-// TODO
-#define DEFAULT_MAX 30
-#define DEFAULT_MIN 20
+#define DEFAULT_MAX 40
+#define DEFAULT_MIN 30
 
 volatile enum status thermoStatus = Off;
 volatile int min_th = DEFAULT_MIN;
@@ -24,12 +23,11 @@ volatile int current_temp = 0;
 
 void thermostatInit(void)
 {
-    // TODO
     SIM->SCGC5 |= SIM_SCGC5_PORTB_MASK; /* clock to PORTB */
-    PORTB->PCR[2] = PORT_PCR_MUX(0);    /* PTE20 analog input */
+    PORTB->PCR[2] = PORT_PCR_MUX(0);    /* PTB2 analog input */
 
     SIM->SCGC5 |= SIM_SCGC5_PORTA_MASK;
-    PORTA->PCR[5] = 0x100; /* make PTA3 pin as GPIO */
+    PORTA->PCR[5] = 0x100; /* make PTA5 pin as GPIO */
     PTA->PDDR |= 0x7F;     /* make PTD6-0 as output pins */
     GPIOA_PDOR &= ~(1 << 5);
 
@@ -41,7 +39,7 @@ void thermostatInit(void)
     PTD->PDDR &= ~0x0010;      /* make pin input */
     PORTD->PCR[4] &= ~0xF0000; /* clear interrupt selection */
     PORTD->PCR[4] |= 0x90000;  /* enable both edge interrupt */
-    NVIC->ISER |= 1 << 31;     /* enable INT30 (bit 30 of ISER[0]) */
+    NVIC->ISER |= 1 << 31;     /* enable INT31 (bit 31 of ISER[0]) */
 
     rtc_time = timerGetRTC();
     thermostatTemperature();
@@ -49,21 +47,18 @@ void thermostatInit(void)
 
 void thermostatOff(void)
 {
-    // TODO
     GPIOA_PDOR &= ~(1 << 5);
     thermoStatus = Off;
 }
 
 void thermostatOn(void)
 {
-    // TODO
     GPIOA_PDOR |= (1 << 5);
     thermoStatus = On;
 }
 
 void thermostatAuto(void)
 {
-    // TODO
     fan_on = 0;
     GPIOA_PDOR &= ~(1 << 5);
     thermoStatus = Auto;
@@ -130,7 +125,6 @@ int thermostatTemperature(void)
         ;                    /* wait for conversion complete */
     int result = ADC0->R[0]; /* read conversion result and clear COCO flag */
     float voltage = ((float)result) / 1250.0;
-    // return result;
     current_temp = (voltage - 0.0057) / 0.0096;
     return current_temp;
 }

@@ -15,6 +15,19 @@ enum status
     Auto
 };
 
+
+// Prints the Status of the following:
+//     Date and time
+//     Current Temperature
+//     Min Temperature Threshold
+//     Max Temperature Threshold
+//     Fan status (ON/OFF)
+//     Current Light intensity in percentage
+//     Min Light Threshold
+//     ADAPTIVE_LED status: ON/OFF/percentage
+//     TIMED_LED status: ON/OFF/percentage
+//     ALARM_ON time
+//     ALARM_OFF time
 void statusPrint(void);
 
 #endif /* STATUS_H_ */
