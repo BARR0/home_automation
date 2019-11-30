@@ -11,13 +11,13 @@
 #include "timer.h"
 #include "uart.h"
 
-// TODO
 #define DEFAULT_ON -1
 #define DEFAULT_OFF -1
 
 volatile enum status timedStatus = Off;
 volatile int on = DEFAULT_ON;
 volatile int off = DEFAULT_OFF;
+volatile int alarm = 0;
 
 void timedLightingInit(void)
 {
@@ -37,16 +37,10 @@ void timedLightingInit(void)
     TPM2->MOD = TPM2_B_MOD;               // Modulo register 60Hz
     TPM2->CONTROLS[0].CnV = 0;            // Set up channel to 50%
     TPM2->SC = TPM_SC_CMOD(1);            // Enable TPM2
-
-    // TODO: Auto
-    // NVIC->ICPR = 0;
-    // RTC->IER |= RTC_IER_TAIE_MASK;
-    // NVIC->ISER |= 1 << 20;
 }
 
 void timedLightingOff(void)
 {
-    // TODO
     RTC->IER &= ~RTC_IER_TAIE_MASK;
     TPM2->CONTROLS[0].CnV = 0;
     timedStatus = Off;
@@ -54,32 +48,29 @@ void timedLightingOff(void)
 
 void timedLightingOn(void)
 {
-    // TODO
     timedStatus = On;
 }
 
 void timedLightingAuto(void)
 {
-    // TODO
     int time = timerGetRTC();
     NVIC->ICPR = 0;
+    RTC->SR &= ~RTC_SR_TCE_MASK;
     RTC->CR |= RTC_CR_SWR_MASK;
     RTC->CR &= ~RTC_CR_SWR_MASK;
-    if (RTC->SR & RTC_SR_TIF_MASK)
-    {
-        RTC->TSR = 0x00000000;
-    }
     RTC->TCR = RTC_TCR_CIR(1) | RTC_TCR_TCR(0xFF);
+    RTC->TSR = time;
     RTC->TAR = on;
+    RTC->SR |= RTC_SR_TCE_MASK;
     RTC->IER |= RTC_IER_TAIE_MASK;
     NVIC->ISER |= 1 << 20;
-    RTC->SR |= RTC_SR_TCE_MASK;
     timedStatus = Auto;
+    RTC->SR &= ~RTC_SR_TAF_MASK;
+    TPM2->CONTROLS[0].CnV = 0;
 }
 
 void timedLightingWork(void)
 {
-    // TODO
     switch (timedLightingStatus())
     {
     case Off:
@@ -123,6 +114,22 @@ enum status timedLightingStatus(void)
 
 void RTC_Alarm_IRQHandler()
 {
-    uartPutString("=========== ALARM ===========");
-    RTC->TAR = off;
+    if (!(RTC->SR & RTC_SR_TAF_MASK))
+    {
+        return;
+    }
+    if (alarm == 0)
+    {
+        TPM2->CONTROLS[0].CnV = TPM2_B_MOD;
+        RTC->TAR = off;
+        alarm = 1;
+    }
+    else if (alarm == 1)
+    {
+        on += 60 * 60 * 24;
+        off += 60 * 60 * 24;
+        TPM2->CONTROLS[0].CnV = 0;
+        RTC->TAR = on;
+        alarm = 0;
+    }
 }
