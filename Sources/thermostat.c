@@ -20,6 +20,7 @@ volatile int min_th = DEFAULT_MIN;
 volatile int max_th = DEFAULT_MAX;
 volatile int fan_on = 0;
 volatile int rtc_time = -1;
+volatile int current_temp = 0;
 
 void thermostatInit(void)
 {
@@ -43,6 +44,7 @@ void thermostatInit(void)
     NVIC->ISER |= 1 << 31;     /* enable INT30 (bit 30 of ISER[0]) */
 
     rtc_time = timerGetRTC();
+    thermostatTemperature();
 }
 
 void thermostatOff(void)
@@ -63,12 +65,12 @@ void thermostatAuto(void)
 {
     // TODO
     fan_on = 0;
+    GPIOA_PDOR &= ~(1 << 5);
     thermoStatus = Auto;
 }
 
 void thermostatWork(void)
 {
-    int temperature;
     switch (thermostatStatus())
     {
     case Off:
@@ -76,16 +78,21 @@ void thermostatWork(void)
     case On:
         break;
     case Auto:
-        temperature = thermostatTemperature();
-        if (fan_on == 0 && temperature >= max_th)
+        if (fan_on == 0 && current_temp >= max_th)
         {
-            GPIOA_PDOR |= (1 << 5);
             fan_on = 1;
         }
-        else if (fan_on == 1 && temperature <= min_th)
+        else if (fan_on == 1 && current_temp <= min_th)
+        {
+            fan_on = 0;
+        }
+        if (fan_on == 1)
+        {
+            GPIOA_PDOR |= (1 << 5);
+        }
+        else if (fan_on == 0)
         {
             GPIOA_PDOR &= ~(1 << 5);
-            fan_on = 0;
         }
         break;
     }
@@ -118,12 +125,14 @@ enum status thermostatStatus(void)
 
 int thermostatTemperature(void)
 {
-    // TODO
     ADC0->SC1[0] = 12; /* start conversion on channel 0 */
     while (!(ADC0->SC1[0] & ADC_SC1_COCO_MASK))
         ;                    /* wait for conversion complete */
     int result = ADC0->R[0]; /* read conversion result and clear COCO flag */
-    return result;
+    float voltage = ((float)result) / 1250.0;
+    // return result;
+    current_temp = (voltage - 0.0057) / 0.0096;
+    return current_temp;
 }
 
 void PORTD_IRQHandler()

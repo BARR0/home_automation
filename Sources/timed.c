@@ -84,6 +84,14 @@ void timedLightingWork(void)
         TPM2->CONTROLS[0].CnV = (TPM2_B_MOD * result) / ADC0_MAX;
         break;
     case Auto:
+        if (alarm == 0)
+        {
+            TPM2->CONTROLS[0].CnV = 0;
+        }
+        else if (alarm == 1)
+        {
+            TPM2->CONTROLS[0].CnV = TPM2_B_MOD;
+        }
         break;
     }
 }
@@ -121,7 +129,6 @@ void RTC_Alarm_IRQHandler()
     }
     if (alarm == 0)
     {
-        TPM2->CONTROLS[0].CnV = TPM2_B_MOD;
         RTC->TAR = off;
         alarm = 1;
     }
@@ -129,7 +136,6 @@ void RTC_Alarm_IRQHandler()
     {
         on += 60 * 60 * 24;
         off += 60 * 60 * 24;
-        TPM2->CONTROLS[0].CnV = 0;
         RTC->TAR = on;
         alarm = 0;
     }
